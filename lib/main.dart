@@ -1,4 +1,5 @@
 import 'package:bottom_navigation/screens/character_screen.dart';
+import 'package:bottom_navigation/screens/location_screen.dart';
 import 'package:bottom_navigation/screens/new_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -17,10 +18,10 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _currentIndex = 0;
+  int _currentIndex = 1;
   final List<Widget> _screens = [
-    const NewPageScreen(title: "Localidades"),
-    const CharacterScreen(),
+    LocationScreen(),
+    CharacterScreen(),
     const NewPageScreen(title: "Episódios"),
   ];
 

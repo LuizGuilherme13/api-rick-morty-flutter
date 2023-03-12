@@ -1,138 +1,82 @@
-// To parse this JSON data, do
-//
-//     final character = characterFromJson(jsonString);
+class CharacterDTO {
+  int id;
+  String name;
+  String species;
+  String image;
+  String status;
+  LocationDTO origin;
+  LocationDTO location;
 
-import 'dart:convert';
-
-Character characterFromJson(String str) => Character.fromJson(json.decode(str));
-
-String characterToJson(Character data) => json.encode(data.toJson());
-
-class Character {
-  Character({
-    required this.info,
-    required this.results,
-  });
-
-  Info info;
-  List<Result> results;
-
-  factory Character.fromJson(Map<String, dynamic> json) => Character(
-        info: Info.fromJson(json["info"]),
-        results:
-            List<Result>.from(json["results"].map((x) => Result.fromJson(x))),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "info": info.toJson(),
-        "results": List<dynamic>.from(results.map((x) => x.toJson())),
-      };
-}
-
-class Info {
-  Info({
-    required this.count,
-    required this.pages,
-    required this.next,
-    required this.prev,
-  });
-
-  int count;
-  int pages;
-  String next;
-  String prev;
-
-  factory Info.fromJson(Map<String, dynamic> json) => Info(
-        count: json["count"],
-        pages: json["pages"],
-        next: json["next"],
-        prev: json["prev"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "count": count,
-        "pages": pages,
-        "next": next,
-        "prev": prev,
-      };
-}
-
-class Result {
-  Result({
+  CharacterDTO({
     required this.id,
     required this.name,
     required this.status,
     required this.species,
-    required this.type,
-    required this.gender,
+    required this.image,
     required this.origin,
     required this.location,
-    required this.image,
-    required this.episode,
-    required this.url,
-    required this.created,
   });
 
-  int id;
-  String name;
-  String status;
-  String species;
-  String type;
-  String gender;
-  Location origin;
-  Location location;
-  String image;
-  List<String> episode;
-  String url;
-  DateTime created;
-
-  factory Result.fromJson(Map<String, dynamic> json) => Result(
-        id: json["id"],
-        name: json["name"],
-        status: json["status"],
-        species: json["species"],
-        type: json["type"],
-        gender: json["gender"],
-        origin: Location.fromJson(json["origin"]),
-        location: Location.fromJson(json["location"]),
-        image: json["image"],
-        episode: List<String>.from(json["episode"].map((x) => x)),
-        url: json["url"],
-        created: DateTime.parse(json["created"]),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
-        "status": status,
-        "species": species,
-        "type": type,
-        "gender": gender,
-        "origin": origin.toJson(),
-        "location": location.toJson(),
-        "image": image,
-        "episode": List<dynamic>.from(episode.map((x) => x)),
-        "url": url,
-        "created": created.toIso8601String(),
-      };
+  CharacterDTO.fromJson(Map<dynamic, dynamic> json)
+      : id = json['id'],
+        name = json['name'],
+        species = json['species'],
+        image = json['image'],
+        status = json['status'],
+        origin = LocationDTO.fromJson(json["origin"]),
+        location = LocationDTO.fromJson(json["location"]);
 }
 
-class Location {
-  Location({
+class LocationDTO {
+  String name;
+  String url;
+
+  LocationDTO({
     required this.name,
     required this.url,
   });
 
+  LocationDTO.fromJson(Map<dynamic, dynamic> json)
+      : name = json['name'],
+        url = json['url'];
+}
+
+class Location {
+  int id;
   String name;
-  String url;
+  String type;
+  String dimension;
 
-  factory Location.fromJson(Map<String, dynamic> json) => Location(
-        name: json["name"],
-        url: json["url"],
-      );
+  Location({
+    required this.id,
+    required this.name,
+    required this.type,
+    required this.dimension,
+  });
 
-  Map<String, dynamic> toJson() => {
-        "name": name,
-        "url": url,
-      };
+  Location.fromJson(Map<dynamic, dynamic> json)
+      : id = json['id'],
+        name = json['name'],
+        type = json['type'],
+        dimension = json['dimension'];
+}
+
+class EpisodeDTO {
+  int id;
+  String name;
+  String airDate;
+  String episode;
+
+  EpisodeDTO({
+    required this.id,
+    required this.name,
+    required this.airDate,
+    required this.episode,
+  });
+
+  EpisodeDTO.fromJson(Map<dynamic, dynamic> json)
+      : id = json['id'],
+        name = json['name'],
+        airDate = json['air_date'],
+        episode = json['episode'];
 }
