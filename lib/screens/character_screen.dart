@@ -13,37 +13,32 @@ class CharacterScreen extends StatefulWidget {
 }
 
 class _CharacterScreen extends State<CharacterScreen> {
+  String? query = '/character/?page=1';
+
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.all(12),
-          child: Container(
-            alignment: AlignmentDirectional.center,
-            height: 40,
-            width: 200,
-            decoration: BoxDecoration(
-                color: Colors.green, borderRadius: BorderRadius.circular(4)),
-            child: Text(
-              'Page ${widget.page}',
-              style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white),
-            ),
+        TextField(
+          decoration: const InputDecoration(
+            prefixIcon: Icon(Icons.search),
+            border: OutlineInputBorder(),
+            hintText: 'Search by name',
           ),
+          onSubmitted: (value) {
+            query = '/character/?name=$value';
+          },
         ),
         Container(
           decoration: BoxDecoration(
             border: Border.all(width: 1),
           ),
-          height: MediaQuery.of(context).size.height / 1.7,
+          height: MediaQuery.of(context).size.height / 1.6,
           width: MediaQuery.of(context).size.width,
           child: SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.all(15),
-              child: fetchCharacters(widget.page),
+              child: fetchCharacters(query: query),
             ),
           ),
         ),
@@ -57,13 +52,30 @@ class _CharacterScreen extends State<CharacterScreen> {
                   onPressed: () {
                     setState(() {
                       widget.page--;
+                      query = '/character/?page=${widget.page}';
                     });
                   },
                   child: const Icon(Icons.arrow_left)),
+              Container(
+                alignment: AlignmentDirectional.center,
+                height: 40,
+                width: 200,
+                decoration: BoxDecoration(
+                    color: Colors.green,
+                    borderRadius: BorderRadius.circular(4)),
+                child: Text(
+                  'Page ${widget.page}',
+                  style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white),
+                ),
+              ),
               ElevatedButton(
                   onPressed: () {
                     setState(() {
                       widget.page++;
+                      query = '/character/?page=${widget.page}';
                     });
                   },
                   child: const Icon(Icons.arrow_right)),
@@ -74,9 +86,9 @@ class _CharacterScreen extends State<CharacterScreen> {
     );
   }
 
-  FutureBuilder<List<CharacterDTO>> fetchCharacters(int page) =>
+  FutureBuilder<List<CharacterDTO>> fetchCharacters({String? query}) =>
       FutureBuilder<List<CharacterDTO>>(
-          future: controller.fetchCharacters(page),
+          future: controller.fetchCharacters(query: query),
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
               return const SizedBox(

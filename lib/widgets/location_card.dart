@@ -1,14 +1,20 @@
 import 'package:bottom_navigation/models/models.dart';
 import 'package:flutter/material.dart';
 
-class LocationCard extends StatelessWidget {
+class LocationCard extends StatefulWidget {
   final Location? location;
-  const LocationCard({Key? key, required this.location}) : super(key: key);
 
+  LocationCard({Key? key, required this.location}) : super(key: key);
+
+  @override
+  _LocationCardState createState() => _LocationCardState();
+}
+
+class _LocationCardState extends State<LocationCard> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(4),
+      padding: const EdgeInsets.all(4),
       child: Stack(
         children: [
           Container(
@@ -19,13 +25,73 @@ class LocationCard extends StatelessWidget {
               borderRadius: BorderRadius.circular(4),
             ),
           ),
-          Column(
+          Row(
+            //mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text(location?.name ?? ""),
-              Text(location?.type ?? ""),
-              Text(location?.dimension ?? ""),
+              SizedBox(
+                height: 100,
+                width: 125,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(4),
+                  child: Image.asset(
+                    'assets/images/location.jpg',
+                    fit: BoxFit.fill,
+                  ),
+                ),
+              ),
+              Container(
+                  padding: const EdgeInsets.only(left: 8),
+                  // color: Colors.blue,
+                  width: 195,
+                  height: 100,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Row(
+                        children: [
+                          const Icon(Icons.not_listed_location_sharp),
+                          SizedBox(
+                            height: 20,
+                            width: 150,
+                            // color: Colors.amber,
+                            child: Text(
+                              widget.location!.name,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          const Icon(Icons.query_stats_rounded),
+                          SizedBox(
+                            height: 20,
+                            width: 150,
+                            child: Text(
+                              widget.location!.type,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          const Icon(Icons.radar),
+                          SizedBox(
+                            height: 20,
+                            width: 150,
+                            child: Text(
+                              widget.location!.dimension,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ))
             ],
-          ),
+          )
         ],
       ),
     );

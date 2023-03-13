@@ -7,8 +7,8 @@ import 'package:http/http.dart';
 class Controller {
   final apiRepository = ApiRepository();
 
-  Future<List<CharacterDTO>> fetchCharacters(int page) async {
-    final Response response = await apiRepository.fetchCharacters(page);
+  Future<List<CharacterDTO>> fetchCharacters({String? query}) async {
+    final Response response = await apiRepository.fetchCharacters(query: query);
     List<CharacterDTO> characters = [];
 
     if (response.statusCode == 200) {
@@ -23,8 +23,8 @@ class Controller {
     return characters;
   }
 
-  Future<List<Location>> fetchLocations() async {
-    final Response response = await apiRepository.fetchLocations();
+  Future<List<Location>> fetchLocations({String? query}) async {
+    final Response response = await apiRepository.fetchLocations(query: query);
     List<Location> locations = [];
 
     if (response.statusCode == 200) {
@@ -38,6 +38,21 @@ class Controller {
     }
 
     return locations;
+  }
+
+  Future<List<EpisodeDTO>> fetchEpisodes({String? query}) async {
+    final Response response = await apiRepository.fetchEpisodes(query: query);
+    List<EpisodeDTO> episodes = [];
+
+    if (response.statusCode == 200) {
+      final Map data = jsonDecode(response.body);
+      final List<dynamic> episodesResult = data['results'];
+
+      episodes = episodesResult
+          .map((episode) => EpisodeDTO.fromJson(episode))
+          .toList();
+    }
+    return episodes;
   }
 }
 

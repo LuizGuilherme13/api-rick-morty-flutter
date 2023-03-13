@@ -1,6 +1,6 @@
 import 'package:bottom_navigation/screens/character_screen.dart';
+import 'package:bottom_navigation/screens/episode_screen.dart';
 import 'package:bottom_navigation/screens/location_screen.dart';
-import 'package:bottom_navigation/screens/new_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -22,7 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final List<Widget> _screens = [
     LocationScreen(),
     CharacterScreen(),
-    const NewPageScreen(title: "Episódios"),
+    EpisodeScreen(),
   ];
 
   void onTabTapped(int index) {
@@ -34,6 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(title: const Text('Rick & Morty API')),
       body: _screens[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
